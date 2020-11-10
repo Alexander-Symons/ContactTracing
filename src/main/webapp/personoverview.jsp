@@ -10,16 +10,19 @@
 <body>
     <div id="container">
     <header>
-        <h1><span>XXX</span></h1>
+        <h1>
+            User Overview
+        </h1>
         <nav>
             <ul>
                 <li><a href="Controller">Home</a></li>
-                <li id="actual"><a href="Controller?command=overview">Overview</a></li>
-                <li><a href="Controller?command=register">Register</a></li>
+                <li id="actual"><a href="Controller?command=Overview">Overview</a></li>
+                <li><a href="Controller?command=Contacts">Contacts</a></li>
+                <li><a href="Controller?command=Register">Register</a></li>
             </ul>
         </nav>
         <h2>
-        User Overview
+            Overview
         </h2>
 
     </header>

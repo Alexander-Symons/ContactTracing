@@ -58,12 +58,14 @@ h1 {
 	background-repeat: no-repeat;
 	background-size: cover;
 	position: relative;
+	color: white;
 }
 
 h1 span {
 	position: absolute;
 	right: 15px;
 	bottom: 15px;
+
 }
 
 th,td {
@@ -144,7 +146,7 @@ input {
 	max-width: 1000px;
 	}
 	h1 {
-	background-image: url("../images/banner.png");
+	background-image: url("../images/coronaimage.jpg");
 	}
 	
 	nav ul {
