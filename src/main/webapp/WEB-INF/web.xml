@@ -9,7 +9,7 @@
     <context-param>
         <param-name>dbUrl</param-name>
         <param-value>
-            jdbc:postgresql://databanken.ucll.be:62021/2TX32
+            jdbc:postgresql://databanken.ucll.be:62021/2TX33
         </param-value>
     </context-param>
     <context-param>
