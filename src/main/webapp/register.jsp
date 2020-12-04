@@ -18,6 +18,12 @@
             <li><a href="Controller">Home</a></li>
             <li><a href="Controller?command=Overview">Overview</a></li>
             <li><a href="Controller?command=Contacts">Contacts</a></li>
+            <c:choose>
+                <c:when test="${not empty login}">
+                    <li><a href="Controller?command=Testresult">Register testresult</a></li>
+                    <li><a href="Controller?command=Search">Search</a></li>
+                </c:when>
+            </c:choose>
             <li id="actual"><a href="Controller?command=Register">Register</a></li>
         </ul>
     </nav>
@@ -30,7 +36,7 @@
             <div class="alert-danger">
                 <ul>
                     <c:forEach items="${errors}" var="error">
-                        <li>${error}</li>
+                        <li><c:out value='${error}'/></li>
                     </c:forEach>
                 </ul>
             </div>
@@ -39,15 +45,15 @@
         <form method = "POST" action="Controller?command=Add" novalidate="novalidate">
             <!-- novalidate in order to be able to run tests correctly -->
             <p><label for="userid">User id</label><input type="text" id="userid" name="userid"
-             required value="${userid}"> </p>
+             required value="<c:out value='${userid}'/>"> </p>
             <p><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"
-             required value="${firstName}"> </p>
+             required value="<c:out value='${firstName}'/>"> </p>
             <p><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"
-             required value="${lastName}"> </p>
+             required value="<c:out value='${lastName}'/>"> </p>
             <p><label for="email">Email</label><input type="email" id="email" name="email"
-                                                      required value="${email}"></p>
+                                                      required value="<c:out value='${email}'/>"></p>
             <p><label for="password">Password</label><input type="password" id="password"  name="password"
-             required value="${password}"> </p>
+             required value="<c:out value='${password}'/>"> </p>
             <p><input type="submit" id="signUp" value="Sign Up"></p>
 
         </form>

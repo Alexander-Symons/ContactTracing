@@ -15,7 +15,7 @@ public class Contacts extends RequestHandler{
         Person p = (Person) request.getSession().getAttribute("login");
 
         if(p != null){
-            if (p.getUserid().equals("admin")){
+            if (p.getRole().equals("admin")){
                 contactslist = contactService.getAll();
             }
             else{

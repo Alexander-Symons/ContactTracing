@@ -20,6 +20,7 @@ public class Add extends RequestHandler {
         setPersonLastName(p, request, errors);
         setPersonEmail(p, request, errors);
         setPersonPassword(p, request, errors);
+        setPersonRole(p,request, errors);
 
 
         errors.removeIf(Objects::isNull);
@@ -37,11 +38,20 @@ public class Add extends RequestHandler {
 
     }
 
+    private void setPersonRole(Person p, HttpServletRequest request, List<String> errors) {
+        String role = "user";
+        try{
+            p.setRole(role);
+        }catch (Exception e){
+            errors.add(e.getMessage());
+        }
+    }
+
 
     private void setPersonPassword(Person p, HttpServletRequest request, List<String> errors) {
         String password = request.getParameter("password").trim();
         try{
-            p.setPassword(password);
+            p.setPasswordhashed(password);
             request.setAttribute("password", password);
         }catch (Exception e){
             errors.add(e.getMessage());

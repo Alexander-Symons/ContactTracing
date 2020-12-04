@@ -28,10 +28,9 @@ public class AddContact extends RequestHandler {
         setContactHour(c, request, errors);
 
 
-
-        //errors.removeIf(Objects::isNull);
         if(errors.size() == 0){
             try{
+                contactService.add(c);
                 return "Controller?command=Contacts";
 
 
@@ -39,6 +38,7 @@ public class AddContact extends RequestHandler {
                 errors.add(e.getMessage());
             }
         }
+
         request.setAttribute("errors", errors);
         return "Controller?command=Contacts";
 
@@ -113,10 +113,13 @@ public class AddContact extends RequestHandler {
 
 
     private void setContactUserId(Contact c, HttpServletRequest request, List<String> errors) {
-        String userid = (String) request.getSession().getAttribute("login");
+        Person p = (Person) request.getSession().getAttribute("login");
+        if(p == null){
+            errors.add("The user is not logged in");
+        }
+        String userid = p.getUserid();
         try{
             c.setUserid(userid);
-            System.out.println(errors);
             request.setAttribute("userid", userid);
         }catch (Exception e){
             errors.add(e.getMessage());

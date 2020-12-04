@@ -20,9 +20,16 @@
 					<li id="actual"><a href="Controller">Home</a></li>
 					<li><a href="Controller?command=Overview">Overview</a></li>
 					<li><a href="Controller?command=Contacts">Contacts</a></li>
+					<c:choose>
+						<c:when test="${not empty login}">
+							<li><a href="Controller?command=Testresult">Register testresult</a></li>
+							<li><a href="Controller?command=Search">Search</a></li>
+						</c:when>
+					</c:choose>
 					<li><a href="Controller?command=Register">Register</a></li>
 				</ul>
 			</nav>
+
 			<h2>Home</h2>
 
 		</header>
@@ -37,13 +44,13 @@
 							<div class="alert-danger">
 								<ul>
 									<c:forEach items="${errorschangepsswd}" var="error">
-										<li>${error}</li>
+										<li><c:out value='${error}'/></li>
 									</c:forEach>
 								</ul>
 							</div>
 						</c:if>
-						<p>Welcome ${login.firstName}</p>
-						<form action="Controller?command=logout" method="POST">
+						<p>Welcome <c:out value='${login.firstName}'/></p>
+						<form action="Controller?command=Logout" method="POST">
 							<input type="submit" id="logout" value="Log out">
 						</form>
 						<form action="Controller?command=changepsswd" method="POST">
@@ -56,11 +63,11 @@
 						<c:if test="${not empty error}">
 							<div class="alert-danger">
 								<ul>
-									<li>${error}</li>
+									<li><c:out value='${error}'/></li>
 								</ul>
 							</div>
 						</c:if>
-						<form action="Controller?command=login" method="POST">
+						<form action="Controller?command=Login" method="POST">
 							<p>
 								<label for="userid">User id</label>
 								<input type="text" id="userid" name="userid" required>

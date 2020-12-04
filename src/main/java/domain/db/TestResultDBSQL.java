@@ -24,8 +24,8 @@ public class TestResultDBSQL implements TestResultDb {
     @Override
     public void add(TestResult testResult) {
 
-        String sql = String.format("INSERT INTO %s.testresult(userid, date) VALUES (?, ?) ON CONFLICT (userid) DO UPDATE SET date = excluded.date;", schema);
-
+        String sql = String.format("INSERT INTO %s.testresult(userid, date) VALUES (?, ?);", schema);
+        //ON CONFLICT (userid) DO UPDATE SET date = excluded.date
         try {
             PreparedStatement statementSql = connection.prepareStatement(sql);
             statementSql.setString(1, testResult.getUserId());

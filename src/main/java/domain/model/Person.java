@@ -2,6 +2,10 @@ package domain.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Person {
 	private String userid;
@@ -9,15 +13,26 @@ public class Person {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private String role;
 
-	public Person(String userid, String email, String password, String firstName, String lastName) {
+	public Person(String userid, String email, String password, String firstName, String lastName) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		setUserid(userid);
 		setEmail(email);
 		setPassword(password);
 		setFirstName(firstName);
 		setLastName(lastName);
+		setRole("user");
 	}
-	
+
+	public Person(String userid, String email, String password, String firstName, String lastName, String role) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		setUserid(userid);
+		setEmail(email);
+		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setRole(role);
+	}
+
 	public Person() {
 	}
 
@@ -57,18 +72,27 @@ public class Person {
 		return password;
 	}
 	
-	public boolean isCorrectPassword(String password) {
+	public boolean isCorrectPassword(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		if(password.isEmpty()){
 			throw new IllegalArgumentException("No password given");
 		}
-		return getPassword().equals(password);
+
+		String p = sha512(password);
+		return getPassword().equals(p);
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		if(password.isEmpty()){
 			throw new IllegalArgumentException("No password given");
 		}
 		this.password = password;
+	}
+
+	public void setPasswordhashed(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		if(password.isEmpty()){
+			throw new IllegalArgumentException("No password given");
+		}
+		this.password = sha512(password);
 	}
 
 	public String getFirstName() {
@@ -92,9 +116,29 @@ public class Person {
 		}
 		this.lastName = lastName;
 	}
-	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString(){
 		return getFirstName() + " " + getLastName() + ": " + getUserid() + ", " + getEmail();
-	}	
+	}
+
+
+	private static String sha512(String password) throws
+			NoSuchAlgorithmException, UnsupportedEncodingException {
+		MessageDigest crypt = MessageDigest.getInstance("SHA-512");
+		crypt.reset();
+		byte[] passwordBytes = password.getBytes("UTF-8");
+		crypt.update(passwordBytes);
+		byte[] digest = crypt.digest();
+		return new BigInteger(1, digest).toString(16);
+
+	}
 }

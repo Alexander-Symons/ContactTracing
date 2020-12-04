@@ -17,16 +17,25 @@
         </h2>
     </header>
     <main>
+        <c:if test="${not empty errors}">
+            <div class="alert-danger">
+                <ul>
+                    <c:forEach items="${errors}" var="error">
+                        <li><c:out value='${error}'/></li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
         <p>Give the info about the contact you want to remove</p>
         <form method = "POST" action="Controller?command=RemoveContactConfirm" novalidate="novalidate">
             <p><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName"
-                                                               required value="${firstName}"> </p>
+                                                               required value="<c:out value='${firstName}'/>"> </p>
             <p><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName"
-                                                             required value="${lastName}"> </p>
+                                                             required value="<c:out value='${lastName}'/>"> </p>
             <p><label for="date">Date</label><input type="date" id="date" name="date"
-                                                    required value="${date}"> </p>
+                                                    required value="<c:out value='${date}'/>"> </p>
             <p><label for="hour">Hour</label><input type="time" id="hour" name="hour"
-                                                    required value="${hour}"> </p>
+                                                    required value="<c:out value='${hour}'/>"> </p>
             <p><input type="submit" id="removeContactconfirm" value="Remove Contact"></p>
         </form>
     </main>

@@ -6,6 +6,8 @@ import domain.model.Person;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 public class Login extends RequestHandler{
 
@@ -25,6 +27,10 @@ public class Login extends RequestHandler{
             }
         }catch (DbException e){
             request.setAttribute("error", "The given data is invalid");
+        } catch (UnsupportedEncodingException e) {
+            request.setAttribute("error", "unsupported encoding exception");
+        } catch (NoSuchAlgorithmException e) {
+            request.setAttribute("error", "No such algorithm");
         }
         return "Controller?command=Home";
     }

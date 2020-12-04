@@ -1,3 +1,5 @@
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -8,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <div id="container">
+<div id="container">
     <header>
         <h1>
             User Overview
@@ -16,12 +18,12 @@
         <nav>
             <ul>
                 <li><a href="Controller">Home</a></li>
-                <li id="actual"><a href="Controller?command=Overview">Overview</a></li>
+                <li><a href="Controller?command=Overview">Overview</a></li>
                 <li><a href="Controller?command=Contacts">Contacts</a></li>
                 <c:choose>
                     <c:when test="${not empty login}">
                         <li><a href="Controller?command=Testresult">Register testresult</a></li>
-                        <li><a href="Controller?command=Search">Search</a></li>
+                        <li id="actual"><a href="Controller?command=Search">Search</a></li>
                     </c:when>
                 </c:choose>
                 <li><a href="Controller?command=Register">Register</a></li>
@@ -33,30 +35,32 @@
 
     </header>
     <main>
+        <c:if test="${not empty errors}">
+            <div class="alert-danger">
+                <ul>
+                    <c:forEach items="${errors}" var="error">
+                        <li><c:out value='${error}'/></li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
         <table>
             <tr>
-                <th>E-mail</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
+                <th>GSM</th>
+                <th>Email</th>
             </tr>
-            <c:forEach var="persoon" items="${users}">
+            <c:forEach var="contact" items="${contacts}">
                 <tr>
-                    <td><c:out value='${persoon.email}'/></td>
-                    <td><c:out value='${persoon.firstName}'/></td>
-                    <td><c:out value='${persoon.lastName}'/></td>
-                    <c:if test="${login.role == 'admin'}">
-                        <td><c:out value='${persoon.role}'/></td>
-                    </c:if>
+                    <td><c:out value='${contact.firstName}'/> <c:out value='${contact.lastName}'/></td>
+                    <td><c:out value='${contact.gsm}'/></td>
+                    <td><c:out value='${contact.email}'/></td>
                 </tr>
             </c:forEach>
 
-            <caption>Users Overview</caption>
+            <caption>Possible positive contacts</caption>
         </table>
-        <c:if test="${login.role == 'admin'}">
-            <form action="Controller?command=ChangeRole" method="POST">
-                <input type="submit" id="changerole" value="Change roles">
-            </form>
-        </c:if>
+
     </main>
     <footer>
         &copy; Webontwikkeling 3, UC Leuven-Limburg

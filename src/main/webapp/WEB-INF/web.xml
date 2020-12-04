@@ -14,7 +14,7 @@
     </context-param>
     <context-param>
         <param-name>schema</param-name>
-        <param-value>Web3Databank</param-value>
+        <param-value>web3_project_r0750976</param-value>
     </context-param>
 
 </web-app>

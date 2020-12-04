@@ -3,6 +3,8 @@ package domain.db;
 import domain.model.Person;
 import util.DbConnectionService;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,12 +20,13 @@ public class PersonDBSQL implements PersonDB{
         connection = DbConnectionService.getDbConnection();
         schema = DbConnectionService.getSchema();
         System.out.println("Schema: " + schema);
+        System.out.println(connection);
     }
 
 
     @Override
     public void add(Person person) {
-        String sql = String.format("INSERT INTO %s.person(userid, email, password, firstname, lastname) VALUES (?, ?, ?, ?, ?)", schema);
+        String sql = String.format("INSERT INTO %s.person(userid, email, password, firstname, lastname, role) VALUES (?, ?, ?, ?, ?, ?)", schema);
 
         try {
             PreparedStatement statementSql = connection.prepareStatement(sql);
@@ -32,6 +35,7 @@ public class PersonDBSQL implements PersonDB{
             statementSql.setString(3, person.getPassword());
             statementSql.setString(4, person.getFirstName());
             statementSql.setString(5, person.getLastName());
+            statementSql.setString(6, person.getRole());
             statementSql.execute();
         } catch (SQLException e) {
             throw new DbException(e);
@@ -51,7 +55,7 @@ public class PersonDBSQL implements PersonDB{
                 Person person = createPerson(result);
                 personlist.add(person);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
             throw new DbException(e.getMessage(), e);
         }
         return personlist;
@@ -95,18 +99,19 @@ public class PersonDBSQL implements PersonDB{
             result.next();
 
             return createPerson(result);
-        } catch (SQLException e) {
+        } catch (SQLException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
             throw new DbException(e.getMessage(), e);
         }
     }
 
-    public Person createPerson(ResultSet resultset) throws SQLException {
+    public Person createPerson(ResultSet resultset) throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
         String userid = resultset.getString("userid");
         String email = resultset.getString("email");
         String password = resultset.getString("password");
         String firstName = resultset.getString("firstname");
         String lastName = resultset.getString("lastname");
+        String role = resultset.getString("role");
 
-        return new Person(userid, email, password, firstName, lastName);
+        return new Person(userid, email, password, firstName, lastName, role);
     }
 }
